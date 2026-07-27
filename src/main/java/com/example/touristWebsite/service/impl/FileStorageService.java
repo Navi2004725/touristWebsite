@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,18 +16,16 @@ public class FileStorageService {
     private String uploadDir;
 
     public String saveFile(MultipartFile file) throws IOException {
-        // Ensure upload directory exists
-        File dir = new File(uploadDir);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
+        Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+        Files.createDirectories(uploadPath);
 
-        // Save file
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        Path path = Paths.get(uploadDir, fileName);
+        String originalFileName = file.getOriginalFilename() == null
+                ? "upload"
+                : Paths.get(file.getOriginalFilename()).getFileName().toString();
+        String fileName = System.currentTimeMillis() + "_" + originalFileName;
+        Path path = uploadPath.resolve(fileName).normalize();
         Files.write(path, file.getBytes());
 
-        // Return file path (to save in DB)
         return "/uploads/" + fileName;
     }
 }

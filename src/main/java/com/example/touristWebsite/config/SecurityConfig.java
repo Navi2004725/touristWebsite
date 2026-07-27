@@ -64,6 +64,7 @@ public class SecurityConfig {
                         .requestMatchers("/rooms/").permitAll() // Everyone can view rooms
                         .requestMatchers("/rooms/update/**").permitAll()
                         .requestMatchers("/rooms/search/**").permitAll()
+                        .requestMatchers("/uploads").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/payment/rooms/create").permitAll()
                         .requestMatchers("/payment/rooms/{bookingId}/{paymentId}").permitAll()

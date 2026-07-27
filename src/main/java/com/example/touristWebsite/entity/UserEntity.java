@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,5 +25,5 @@ public class UserEntity {
     @Column(nullable = false)
     private String role = "user";
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-    private List<RoomPaymentsEntity> roomPayments;
+    private List<RoomPaymentsEntity> roomPayments = new ArrayList<>();
 }
