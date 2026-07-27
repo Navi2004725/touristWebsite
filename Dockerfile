@@ -1,12 +1,12 @@
 # Step 1: Build the app
-FROM gradle:8-jdk21 AS build
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
-RUN gradle bootJar --no-daemon -x test
+RUN mvn clean package -DskipTests
 
 # Step 2: Run the app
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
