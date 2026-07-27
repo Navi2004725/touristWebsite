@@ -38,7 +38,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",      // Local development (Vite)
                 "http://localhost:3000",      // Local development (Create React App)
-                "https://touristwebsite-2.onrender.com" // Your Vercel URL
+                "https://ceylon-sudda-web.vercel.app" // Your Vercel URL
         )); // React dev server
         configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
