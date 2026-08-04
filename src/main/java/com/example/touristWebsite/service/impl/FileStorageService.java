@@ -22,7 +22,11 @@ public class FileStorageService {
         String originalFileName = file.getOriginalFilename() == null
                 ? "upload"
                 : Paths.get(file.getOriginalFilename()).getFileName().toString();
-        String fileName = System.currentTimeMillis() + "_" + originalFileName;
+
+        String safeFileName = originalFileName
+                .replaceAll("[^a-zA-Z0-9._-]", "_");
+
+        String fileName = System.currentTimeMillis() + "_" + safeFileName;
         Path path = uploadPath.resolve(fileName).normalize();
         Files.write(path, file.getBytes());
 
