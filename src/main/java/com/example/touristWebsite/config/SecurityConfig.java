@@ -61,11 +61,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf->csrf.disable()) // (This can disable the protection of domain)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(auth-> auth.requestMatchers( "/", "/auth/**").permitAll()
-                        .requestMatchers("/hotels/").permitAll() // Everyone can view hotels
-                        .requestMatchers("/hotels/search/**").permitAll()
-                        .requestMatchers("/hotels/**").authenticated() // Other hotel operations need authentication
-                        .requestMatchers("/rooms/").permitAll() // Everyone can view rooms
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/auth/**").permitAll()
+                        .requestMatchers("/hotels/", "/hotels/search/**", "/hotels/hotelImages").permitAll()
+                        .requestMatchers("/hotels/**").authenticated()
+                        .requestMatchers("/rooms/").permitAll()
                         .requestMatchers("/rooms/update/**").permitAll()
                         .requestMatchers("/rooms/search/**").permitAll()
                         .requestMatchers("/uploads").permitAll()
@@ -74,12 +74,10 @@ public class SecurityConfig {
                         .requestMatchers("/payment/rooms/{bookingId}/{paymentId}").permitAll()
                         .requestMatchers("/rooms/**").authenticated()
                         .requestMatchers("/payment/rooms/**").authenticated()
-                        // Booking rules
-                        .requestMatchers("/booking/create").permitAll() // anyone can add booking
-                        .requestMatchers("/booking/").authenticated()  // only admins can view all
-                        .requestMatchers("/booking/**").permitAll()   // anyone can view by ID
-                        .anyRequest().authenticated()).sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .requestMatchers("/booking/create").permitAll()
+                        .requestMatchers("/booking/").authenticated()
+                        .requestMatchers("/booking/**").permitAll()
+                        .anyRequest().authenticated()
                 );
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
