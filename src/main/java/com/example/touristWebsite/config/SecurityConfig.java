@@ -66,6 +66,7 @@ public class SecurityConfig {
                         .requestMatchers("/hotels/", "/hotels/search/**", "/hotels/hotelImages").permitAll()
                         .requestMatchers("/hotels/**").authenticated()
                         .requestMatchers("/rooms/").permitAll()
+                        .requestMatchers("/rooms/deleteRoomImage/**").permitAll()
                         .requestMatchers("/rooms/update/**").permitAll()
                         .requestMatchers("/rooms/search/**").permitAll()
                         .requestMatchers("/uploads").permitAll()

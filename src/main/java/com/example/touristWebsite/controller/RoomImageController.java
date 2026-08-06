@@ -25,7 +25,7 @@ public class RoomImageController {
         }
     }
 
-    @DeleteMapping("{imageId}/{roomId}/dltrmimg")
+    @DeleteMapping("/deleteRoomImage/{imageId}/{roomId}")
     @PreAuthorize("hasRole('admin')")
     public ResponseEntity<String> deleteRoomImg(@PathVariable int imageId, @PathVariable Long roomId) {
         String deletedFile = roomImageService.deleteRoomImage(imageId, roomId);
