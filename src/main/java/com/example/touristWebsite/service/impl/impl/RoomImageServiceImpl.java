@@ -72,4 +72,23 @@ public class RoomImageServiceImpl implements RoomImageService {
             );
         }
     }
+
+    @Override
+    public String deleteRoomImage(int imageId, Long roomId) {
+        RoomEntity room = roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
+
+        RoomImageEntity roomImage = roomImageRepository.findById(imageId).orElseThrow(() -> new RuntimeException("Image not found"));
+
+        if (imageId != roomImage.getImageId()) {
+            throw new RuntimeException("Image id mismatch");
+        }
+
+        if (roomImage.getRoom() != room) {
+            throw new RuntimeException("Room id mismatch");
+        }
+
+        roomImageRepository.delete(roomImage);
+        return imageId + "";    // return integer image id to string
+
+    }
 }

@@ -23,8 +23,19 @@ public class RoomImageController {
         }else {
             return ResponseEntity.badRequest().body("Image not uploaded");
         }
-
-
     }
+
+    @DeleteMapping("{imageId}/{roomId}/dltrmimg")
+    @PreAuthorize("hasRole('admin')")
+    public ResponseEntity<String> deleteRoomImg(@PathVariable int imageId, @PathVariable Long roomId) {
+        String deletedFile = roomImageService.deleteRoomImage(imageId, roomId);
+
+        if(deletedFile != null){
+            return ResponseEntity.ok("Image deleted successfully: " + deletedFile);
+        }
+        return ResponseEntity.badRequest().body("Image not deleted");
+    }
+
+
 
 }
